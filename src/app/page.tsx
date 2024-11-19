@@ -14,11 +14,20 @@ export default async function Home() {
     }
   }
 
+  const customIcons = {
+    'db-system': <Database className="w-4 h-4" />,
+    'db-project': <Database className="w-4 h-4" />,
+    'table-model': <Table className="w-4 h-4" />,
+    'table-view': <Eye className="w-4 h-4" />,
+    'table-agent': <Bot className="w-4 h-4" />,
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <DatabaseExplorer
         data={data}
         theme={customTheme}
+        customIcons={customIcons}
         initialExpandedNodes={['2']}
       />
     </main>
