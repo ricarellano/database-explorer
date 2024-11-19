@@ -2,10 +2,12 @@
 
 import React from 'react';
 import { TreeViewProps, defaultTheme } from '../app/types';
+import TreeNode from './TreeNode';
 
 export default function DatabaseExplorer({
   data,
   theme: customTheme,
+  customIcons,
   initialExpandedNodes = []
 }: TreeViewProps) {
   const theme = React.useMemo(() => ({ ...defaultTheme, ...customTheme }), [customTheme])
@@ -25,9 +27,17 @@ export default function DatabaseExplorer({
 
   const renderTree = React.useCallback((nodes: TreeNode[], level: number) => {
     return nodes.map(node => (
-      <div>{node.name}</div>
+      <TreeNode
+        key={node.name}
+        node={node}
+        level={level}
+        theme={theme}
+        customIcons={customIcons}
+        isExpanded={expandedNodes.has(node.name)}
+        onToggle={toggleNode}
+      />
     ))
-  }, [theme, expandedNodes, toggleNode])
+  }, [theme, customIcons, expandedNodes, toggleNode])
 
   return (
     <div 
