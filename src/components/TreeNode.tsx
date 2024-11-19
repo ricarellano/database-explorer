@@ -33,6 +33,19 @@ const TreeNode = React.memo(({
     }
   }, [hasChildren, node, onNodeClick, onToggle])
 
+  const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleClick()
+    } else if (e.key === 'ArrowRight' && hasChildren && !isExpanded) {
+      e.preventDefault()
+      onToggle(node.name)
+    } else if (e.key === 'ArrowLeft' && hasChildren && isExpanded) {
+      e.preventDefault()
+      onToggle(node.name)
+    }
+  }, [handleClick, hasChildren, isExpanded, onToggle, node.name])
+
   React.useEffect(() => {
     if (nodeRef.current) {
       nodeRef.current.setAttribute('tabindex', '0')
@@ -46,6 +59,7 @@ const TreeNode = React.memo(({
         className={`flex items-center py-1.5 px-2 ${theme.hoverBackground} cursor-pointer group`}
         style={{ paddingLeft: `${level * 1.5}rem` }}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
         role="treeitem"
         aria-expanded={hasChildren ? isExpanded : undefined}
       >
