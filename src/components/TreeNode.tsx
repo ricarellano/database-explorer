@@ -8,7 +8,6 @@ const TreeNode = React.memo(({
   node, 
   level,
   theme, 
-  onNodeClick, 
   customIcons,
   isExpanded,
   onToggle
@@ -16,7 +15,6 @@ const TreeNode = React.memo(({
   node: TreeNode
   level: number
   theme: Theme
-  onNodeClick?: (node: TreeNode) => void
   customIcons?: { [key: string]: React.ReactNode }
   isExpanded: boolean
   onToggle: (nodeName: string) => void
@@ -28,10 +26,7 @@ const TreeNode = React.memo(({
     if (hasChildren) {
       onToggle(node.name)
     }
-    if (onNodeClick) {
-      onNodeClick(node)
-    }
-  }, [hasChildren, node, onNodeClick, onToggle])
+  }, [hasChildren, node, onToggle])
 
   const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -78,7 +73,7 @@ const TreeNode = React.memo(({
           {node.engine && (
             <Badge 
               variant="outline"
-              className="text-[10px] px-1.5 py-0 h-4 font-normal"
+              className={`text-[10px] px-1.5 py-0 h-4 font-normal  ${theme.badge.engine}`}
             >
               {node.engine}
             </Badge>
@@ -100,7 +95,6 @@ const TreeNode = React.memo(({
               node={child}
               level={level + 1}
               theme={theme}
-              onNodeClick={onNodeClick}
               customIcons={customIcons}
               isExpanded={isExpanded}
               onToggle={onToggle}

@@ -1,16 +1,14 @@
 "use client"
 
 import React from 'react';
-import { TreeViewProps, defaultTheme } from '../app/types';
+import { TreeViewProps, theme } from '../app/types';
 import TreeNode from './TreeNode';
 
 export default function DatabaseExplorer({
   data,
-  theme: customTheme,
   customIcons,
   initialExpandedNodes = []
 }: TreeViewProps) {
-  const theme = React.useMemo(() => ({ ...defaultTheme, ...customTheme }), [customTheme])
   const [expandedNodes, setExpandedNodes] = React.useState<Set<string>>(new Set(initialExpandedNodes))
 
   const toggleNode = React.useCallback((nodeName: string) => {

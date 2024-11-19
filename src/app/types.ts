@@ -29,7 +29,7 @@ export interface TreeViewProps {
   initialExpandedNodes?: string[]
 }
 
-export const defaultTheme: Theme = {
+export const theme: Theme = {
   background: 'bg-white',
   hoverBackground: 'hover:bg-gray-50',
   text: 'text-gray-900',
@@ -41,5 +41,6 @@ export const defaultTheme: Theme = {
     model: 'bg-purple-100 text-purple-800',
     view: 'bg-green-100 text-green-800',
     agent: 'bg-orange-100 text-orange-800',
+    engine: 'bg-blue-100 text-blue-800',
   }
 }

@@ -6,14 +6,6 @@ export default async function Home() {
   const file = await fs.readFile(process.cwd() + '/src/lib/data.json', 'utf8');
   const data = JSON.parse(file);
 
-  const customTheme = {
-    background: 'bg-gray-100',
-    text: 'text-blue-900',
-    badge: {
-      model: 'bg-pink-100 text-pink-800',
-    }
-  }
-
   const customIcons = {
     'db-system': <Database className="w-4 h-4" />,
     'db-project': <Database className="w-4 h-4" />,
@@ -26,7 +18,6 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <DatabaseExplorer
         data={data}
-        theme={customTheme}
         customIcons={customIcons}
         initialExpandedNodes={['2']}
       />
