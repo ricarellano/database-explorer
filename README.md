@@ -89,7 +89,12 @@ interface TreeNode {
 The Database Explorer component is built with accessibility in mind:
 
 - Proper ARIA attributes are used to describe the tree structure.
-- Keyboard navigation is supported (Enter/Space to toggle, ArrowRight to expand, ArrowLeft to collapse).
+- Keyboard navigation is supported:
+  - Enter/Space: Toggle expand/collapse of a node
+  - ArrowRight: Expand a collapsed node (if it has children)
+  - ArrowLeft: Collapse an expanded node (if it has children)
+  - ArrowDown: Move focus to the next visible node
+  - ArrowUp: Move focus to the previous visible node
 - Focus management is implemented for keyboard users.
 
 ## Performance
