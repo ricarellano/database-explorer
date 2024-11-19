@@ -19,7 +19,7 @@ export default async function Home() {
       <DatabaseExplorer
         data={data}
         customIcons={customIcons}
-        initialExpandedNodes={['2']}
+        initialExpandedNodes={['mindsdb']}
       />
     </main>
   )
