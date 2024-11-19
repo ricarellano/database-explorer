@@ -2,6 +2,7 @@ import React from 'react';
 import { type TreeNode, Theme } from '../app/types'
 import { ChevronRight } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
+import { getNodeIcon } from '@/lib/getNodeIcon';
 
 const TreeNode = React.memo(({ 
   node, 
@@ -56,6 +57,7 @@ const TreeNode = React.memo(({
           />
         )}
         <span className={`${theme.icon} mr-2`} aria-hidden="true">
+          {getNodeIcon(node.class, node.type, customIcons)}
         </span>
         <span className={`text-sm ${theme.text}`}>{node.name}</span>
         <div className="flex gap-1.5 ml-2">
