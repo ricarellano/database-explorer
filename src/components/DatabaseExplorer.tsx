@@ -9,7 +9,8 @@ export default function DatabaseExplorer({
   customIcons,
   initialExpandedNodes = []
 }: TreeViewProps) {
-  const [expandedNodes, setExpandedNodes] = React.useState<Set<string>>(new Set(initialExpandedNodes))
+  const [expandedNodes, setExpandedNodes] = React.useState<Set<string>>(new Set(initialExpandedNodes));
+  const [focusedNodeName, setFocusedNodeName] = React.useState<string | null>(null);
 
   const toggleNode = React.useCallback((nodeName: string) => {
     setExpandedNodes(prev => {
@@ -23,6 +24,32 @@ export default function DatabaseExplorer({
     })
   }, [])
 
+  const flattenedNodes = React.useMemo(() => {
+    const flatten = (nodes: TreeNode[], level = 0): TreeNode[] => {
+      return nodes.flatMap(node => {
+        const flatNode = { ...node, level }
+        return [
+          flatNode,
+          ...(expandedNodes.has(node.name) && node.children
+            ? flatten(node.children, level + 1)
+            : [])
+        ]
+      })
+    }
+    return flatten(data)
+  }, [data, expandedNodes])
+
+  const handleKeyDown = React.useCallback((e: React.KeyboardEvent, node: TreeNode) => {
+    const currentIndex = flattenedNodes.findIndex(n => n.name === node.name)
+    if (e.key === 'ArrowDown') {
+      const nextIndex = Math.min(currentIndex + 1, flattenedNodes.length - 1)
+      setFocusedNodeName(flattenedNodes[nextIndex].name)
+    } else if (e.key === 'ArrowUp') {
+      const prevIndex = Math.max(currentIndex - 1, 0)
+      setFocusedNodeName(flattenedNodes[prevIndex].name)
+    }
+  }, [flattenedNodes])
+
   const renderTree = React.useCallback((nodes: TreeNode[], level: number) => {
     return nodes.map(node => (
       <TreeNode
@@ -33,9 +60,11 @@ export default function DatabaseExplorer({
         customIcons={customIcons}
         isExpanded={expandedNodes.has(node.name)}
         onToggle={toggleNode}
+        onKeyDown={handleKeyDown}
+        isFocused={focusedNodeName === node.name}
       />
     ))
-  }, [theme, customIcons, expandedNodes, toggleNode])
+  }, [theme, customIcons, expandedNodes, toggleNode, handleKeyDown, focusedNodeName])
 
   return (
     <div 

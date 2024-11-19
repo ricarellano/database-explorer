@@ -10,7 +10,9 @@ const TreeNode = React.memo(({
   theme, 
   customIcons,
   isExpanded,
-  onToggle
+  onToggle,
+  onKeyDown,
+  isFocused,
 }: { 
   node: TreeNode
   level: number
@@ -18,6 +20,8 @@ const TreeNode = React.memo(({
   customIcons?: { [key: string]: React.ReactNode }
   isExpanded: boolean
   onToggle: (nodeName: string) => void
+  onKeyDown: (e: React.KeyboardEvent, node: TreeNode) => void
+  isFocused: boolean
 }) => {
   const hasChildren = node.children && node.children.length > 0
   const nodeRef = React.useRef<HTMLDivElement>(null)
@@ -38,14 +42,20 @@ const TreeNode = React.memo(({
     } else if (e.key === 'ArrowLeft' && hasChildren && isExpanded) {
       e.preventDefault()
       onToggle(node.name)
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      onKeyDown(e, node)
     }
-  }, [handleClick, hasChildren, isExpanded, onToggle, node.name])
+  }, [handleClick, hasChildren, isExpanded, onToggle, node, onKeyDown])
 
   React.useEffect(() => {
     if (nodeRef.current) {
-      nodeRef.current.setAttribute('tabindex', '0')
+      nodeRef.current.setAttribute('tabindex', isFocused ? '0' : '-1')
+      if (isFocused) {
+        nodeRef.current.focus()
+      }
     }
-  }, [])
+  }, [isFocused])
 
   return (
     <div className="select-none">
@@ -98,6 +108,8 @@ const TreeNode = React.memo(({
               customIcons={customIcons}
               isExpanded={isExpanded}
               onToggle={onToggle}
+              onKeyDown={onKeyDown}
+              isFocused={false}
             />
           ))}
         </div>
