@@ -66,6 +66,7 @@ const TreeNode = React.memo(({
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         role="treeitem"
+        aria-selected
         aria-expanded={hasChildren ? isExpanded : undefined}
       >
         {hasChildren && (
@@ -117,5 +118,7 @@ const TreeNode = React.memo(({
     </div>
   )
 })
+
+TreeNode.displayName = 'TreeNode'
 
 export default TreeNode;

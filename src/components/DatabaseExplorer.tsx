@@ -64,7 +64,7 @@ export default function DatabaseExplorer({
         isFocused={focusedNodeName === node.name}
       />
     ))
-  }, [theme, customIcons, expandedNodes, toggleNode, handleKeyDown, focusedNodeName])
+  }, [customIcons, expandedNodes, toggleNode, handleKeyDown, focusedNodeName])
 
   return (
     <div 
